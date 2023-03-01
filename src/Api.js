@@ -119,28 +119,6 @@
 
 // export default Api
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Api Calling Fack api
 
 import React, { useState, useEffect } from 'react'
@@ -152,16 +130,16 @@ function Api () {
   const [users, setUsers] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
-
+  console.log(users)
   useEffect(() => {
     fetchUsers()
   }, [])
 
-
-   
   const fetchUsers = async () => {
     try {
-      const response = await axios.get(API_URL)
+      const response = await axios.get(
+        'https://jsonplaceholder.typicode.com/users'
+      )
       setUsers(response.data)
       setIsLoading(false)
     } catch (error) {
@@ -172,22 +150,30 @@ function Api () {
 
   const addUser = async user => {
     try {
-      const response = await axios.post(API_URL, user)
+      const response = await axios.post(
+        'https://jsonplaceholder.typicode.com/users',
+        user
+      )
       setUsers(prevUsers => [...prevUsers, response.data])
     } catch (error) {
       setError(error.message)
     }
+    console.log('user ', user)
   }
 
   const updateUser = async (id, updatedUser) => {
     try {
-      const response = await axios.put(`${API_URL}/${id}`, updatedUser)
+      const response = await axios.put(
+        `${'https://jsonplaceholder.typicode.com/users'}/${id}`,
+        updatedUser
+      )
       setUsers(prevUsers =>
         prevUsers.map(user => (user.id === id ? response.data : user))
       )
     } catch (error) {
       setError(error.message)
     }
+    console.log(id)
   }
 
   const deleteUser = async id => {
@@ -197,6 +183,7 @@ function Api () {
     } catch (error) {
       setError(error.message)
     }
+    console.log(id)
   }
 
   if (isLoading) {
